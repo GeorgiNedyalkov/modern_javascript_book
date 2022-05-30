@@ -158,3 +158,23 @@ let { height, width, titles } = choices;
 console.log(titles);
 console.log(width);
 console.log(height);
+
+// The pattern on the left side may be more complex and specify the mapping
+// ... between properties and variables
+// if we want to assing a property to a variable with another name
+// options.with go into the variable w, we can set the variable name using a colon:
+
+let menu = {
+    headline: "A la carte",
+    width: 125,
+    height: 250
+};
+
+let { width: w, height: h, headline } = menu;
+
+console.log(headline);
+console.log(w);
+console.log(h);
+
+// we can extract headline as a variable
+
