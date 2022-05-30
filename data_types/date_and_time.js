@@ -260,3 +260,167 @@ console.log(timestampDate);
 let Feb20_2013 = new Date(2012, 01, 20, 03, 12);
 console.log(Feb20_2013);
 
+
+// Tasks: Create a function to show the weekday in short format: MO, TU, WE, TH etc.
+
+let weekday = new Date(2012, 0, 3)
+
+function getWeekDay(date) {
+    let dayOfTheWeek = date.getDay();
+
+    switch (dayOfTheWeek) {
+        case 0:
+            console.log('SU');
+            break;
+        case 1:
+            console.log('MO');
+            break;
+        case 2:
+            console.log('TU');
+            break;
+        case 3:
+            console.log('WE');
+            break;
+        case 4:
+            console.log('TH');
+            break;
+        case 5:
+            console.log('FR');
+            break;
+        case 6:
+            console.log('SA');
+            break;
+    }
+}
+
+console.log(getWeekDay(weekday));
+
+function simpletGetWeekDate(date) {
+    let days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+    return days[date.getDay()];
+}
+
+console.log(simpletGetWeekDate(new Date(2014, 0, 3)));
+
+// European Weekday
+
+function getLocalDate(date) {
+
+    let day = date.getDay();
+
+    if (day == 0) {
+        day = 7;
+    }
+
+    return day;
+}
+
+console.log(getLocalDate(new Date(2012, 0, 3)));
+
+function getDateAgo(date, days) {
+    let dateCopy = new Date(date);
+
+    dateCopy.setDate(date.getDate() - days);
+    return dateCopy.getDate();
+}
+
+let testDate = new Date(2015, 0, 2);
+
+console.log(getDateAgo(date, 1)); // 1, (1 Jan 2015)
+console.log(getDateAgo(date, 2)); // 31, (31 Dec 2014)
+console.log(getDateAgo(date, 365)); // 2, (2 Jan 2014)
+
+function lastDayOfMonth(year, month) {
+    let date = new Date(year, month + 1, 0);
+
+    return date.getDate();
+}
+
+function getSecondsToday() {
+    let d = new Date();
+
+    let secondsPassed = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+
+    return secondsPassed;
+}
+
+console.log(getSecondsToday());
+
+function getSecondsToTomorrow1() {
+    let d = new Date();
+
+    let secondsInDay = 86400;
+    let secondsPassed = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+
+    let difference = secondsInDay - secondsPassed;
+    return difference;
+}
+
+console.log(getSecondsToTomorrow1());
+
+
+function getSecondsToTomorrow() {
+    let now = new Date();
+    let hour = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    let totalSecondsToday = (hour * 60 + minutes) * 60 + seconds;
+    let totalSecondsInADay = 86400;
+
+    return totalSecondsInADay - totalSecondsToday;
+}
+
+console.log(getSecondsToTomorrow());
+
+function getSecondsToTomorrow2() {
+    let now = new Date();
+
+    let tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+    let diff = tomorrow - now; // difference in ms
+
+    return Math.round(diff / 1000);
+}
+
+console.log(getSecondsToTomorrow2());
+
+function formatDate(date) {
+
+    let diff = new Date() - date;
+
+    if (diff < 1000) { // less than 1 second
+        return 'right now';
+    }
+
+    let sec = Math.floor(diff / 1000); // convert diff to seconds
+    if (sec < 60) {
+        return sec + ' sec. ago';
+    }
+
+    let min = Math.floor(diff / 60000); // convert diff to minutes
+    if (min < 60) {
+        return min + 'min. ago';
+    }
+
+    // format the date
+    // add leading zeros to single-digit day/month/hours/minutes
+
+    let d = date;
+    d = [
+        '0' + d.getDate(),
+        '0' + (d.getMonth() + 1),
+        '' + d.getFullYear(),
+        '0' + d.getHours(),
+        '0' + d.getMinutes()
+    ].map(component => component.slice(-2)); // take the last 2 digits of every component
+
+    return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
+}
+
+console.log(formatDate(new Date(new Date - 1))); // "right now"
+console.log(formatDate(new Date(new Date - 30 * 1000))); // "30 sec. ago"
+console.log(formatDate(new Date(new Date - 5 * 60 * 1000))); // "5 min. ago"
+// yesterday's date like 31.12.2016 20:00
+console.log(formatDate(new Date(new Date - 86400 * 1000)));
+
