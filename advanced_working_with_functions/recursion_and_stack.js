@@ -179,7 +179,7 @@ function sumSalaries(department) {
 // Imagine we want to store an ordered list of objects. 
 // The natural choice would be an array
 
-let arr = [obj1, obj2, obj3];
+// let arr = [obj1, obj2, obj3];
 
 // ... but there is a problem with arrays.
 // The "delete" element and "insert" element operations are expensive.
@@ -270,12 +270,176 @@ aList.next = aList.next.next;
  * A recursively-defined data structure is a data structure that can be defined using itself.
    For instance, the linked list can be defined as a data structure consisting of an object refering a list or null
 
-   Trees like HTML elemts tree or the department tree are also naturally recursive: 
+   Trees like HTML elemts tree or the department tree are also naturally recursive:
    The have branches and every branch can have other branches.
 
-   Recursive functions can be used to walk them. 
+   Recursive functions can be used to walk them.
 
    Any recursive function can be rewritten as an iterative on. And that's sometimes required to optimize stuff.
    But for many tasks a recursive function is fast enough and easiier to write and support
 */
 
+// Tasks
+console.log("Tasks");
+
+// Sum all number till the given one
+// Write a function sumTo(n) that calculates the sum of numbers 1 + 2 + ... + n
+
+// for instance
+/*
+sumTo(1) = 1
+sumTo(2) = 2 + 1 = 3
+sumTo(3) = 3 + 2 + 1 = 6
+sumTo(4) = 4 + 3 + 2 + 1 = 10
+...
+sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
+ */
+
+function sumTo(n) {
+    if (n == 1) {
+        return n;
+    }
+    else {
+        return n += sumTo(n - 1)
+    }
+}
+
+function simpleSumTo(n) {
+    return (n == 1) ? n : n += simpleSumTo(n - 1);
+}
+
+function iterativeSumTo(n) {
+    let sum = 0;
+
+    for (let i = 1; i <= n; i++) {
+        sum += i;
+    }
+
+    return sum;
+}
+
+function sumArithmeticProgression(n) {
+    // formula: a(n) = a(1) + (n - 1)D
+
+    return n * (n + 1) / 2;
+}
+
+console.log(sumArithmeticProgression(100));
+// P.S. Naturally the formula is the fastest solution. It only uses 3 operations for any number n
+// Math helps!
+
+
+// Calculate factorial
+console.log("Calculate Factorial");
+
+function calcFactorial(n) {
+    // n * (n - 1)(n - 2)(n - 3)
+
+
+    let factorial = 1;
+
+    for (let i = n; i > 0; i--) {
+        factorial *= i;
+    }
+
+    return factorial;
+}
+
+function recursiveFactorial(n) {
+    let result = 1;
+    let factorial = n;
+
+    if (factorial == 0) {
+        return result;
+    }
+    else {
+        return factorial *= recursiveFactorial(--n);
+    }
+}
+
+function calcFactorialWhile(num) {
+    let factorial = 1;
+
+    while (num > 0) {
+        factorial = factorial * num;
+        num--;
+    }
+
+    return factorial;
+}
+
+console.log(calcFactorial(1));
+console.log(calcFactorial(2));
+console.log(calcFactorial(3));
+console.log(calcFactorial(4));
+console.log(calcFactorial(5));
+
+console.log(recursiveFactorial(1));
+console.log(recursiveFactorial(2));
+console.log(recursiveFactorial(3));
+console.log(recursiveFactorial(4));
+console.log(recursiveFactorial(5));
+
+console.log(calcFactorialWhile(1));
+console.log(calcFactorialWhile(2));
+console.log(calcFactorialWhile(3));
+console.log(calcFactorialWhile(4));
+console.log(calcFactorialWhile(5));
+
+// Fibonacci numbers
+
+// 0, 1, 1, 2, 3, 5, 8, 13, 21
+
+function fib(n) {
+
+    return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}
+console.log(fib(7));
+
+function fibonacci(n) {
+    let a = 1;
+    let b = 1;
+
+    for (let i = 3; i <= n; i++) {
+        let c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}
+
+
+let list1 = {
+    value: 1,
+    next: {
+        value: 2,
+        next: {
+            value: 3,
+            next: {
+                value: 4,
+                next: null
+            }
+        }
+    }
+};
+
+function printList(list1) {
+    let tmp = list1;
+
+    while (tmp) {
+        console.log(tmp.value);
+        tmp = tmp.next;
+    }
+}
+
+printList(list1);
+
+function recursivePrintingOfList(list1) {
+    console.log(list1.value);
+
+    if (list1.next) {
+        printList(list1.next);
+    }
+}
+
+printList(list1);
