@@ -224,4 +224,24 @@ sayHiii = null;
 
 welcome(); // Hello, Guest (nested call works)
 
-// 
+// Summary
+
+// Functions are objects
+// They have properties:
+// * name - the function name. Usually taken from the function definition
+// ... but if there isn't one, JavaScript tries to guess it from the context (e.g. assignment)
+// * length - the number of arguments in the function definition. Rest parameters are not counted
+// If the function is declared as a function expression(not in the main code flow)
+// and it carries the name, then it is called a Named Function Expression.
+// The name can be used inside to reference itself, for recursive calls or such.
+
+// Also functions may carry additional properties. Many well-known JavaScript libraries
+// ... make great use of this features.
+
+// They create a "main" function and attack many other "helper" functions to it.
+// For instance, the JQuery library creates a function named $.
+
+// Tasks
+
+// Set and decrease for counter
+
