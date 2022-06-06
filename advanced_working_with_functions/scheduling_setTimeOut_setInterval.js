@@ -122,17 +122,72 @@ let nestedTimerId = setTimeout(function tick() {
 // Let's compare two code fragments. 
 // First one uses setInterval
 
-let i = 1;
-setInterval(function () {
-    func(i++);
-}, 100);
+// let i = 1;
+// setInterval(function () {
+//     func(i++);
+// }, 100);
 
 // the second one uses nested setTimeout:
 
-let i = 1;
-setTimeount(function run() {
-    func(i++);
-    setTimeout(run, 100);
-}, 100);
+// let i = 1;
+// setTimeout(function run() {
+//     func(i++);
+//     setTimeout(run, 100);
+// }, 100);
 
 // For setInterval the internal scheduler will run func(i++) every 100ms:
+
+// Garbage collection and setInterval/setTimeout callback
+
+// When a function is passed in setInterval/ setTimeout, an internal reference is created to it and saved
+// ... in the scheduler. It prevents the function from being garbage collected, even if there are no other
+// references to it.
+
+// the function stays in memory until the scheduler calls it
+//  setTimeout(function() {...}, 100);
+// For setInterval the function stays in memory until clearInterval is called.
+
+// There's a side effect. A function references the outer lexical environment, so while it lives,
+// ... outer variables live too. They may take much more memory than the function itself.
+// So when we don't need the scheduled function anymore, it's better to cancel it, even if it's very small
+
+// Zero delay setTimeout
+// There is a special use case: setTimeout(func, 0), or just setTimeout(func)
+// This schedules the execution of func as soon as possible. But the scheduler will invoke it only after
+// the currently executing script is complete.
+// So the function is scheduled to run "right after" the current script
+
+// For instance, this outputs "Hello", then immediately "World":
+
+setTimeout(() => console.log("World"));
+
+console.log("Hello");
+
+// There are also advanced browser-related use cases of zero-delay timeout, that will be discussed another chapter
+
+// Zero delay is in fact not zero (in a browser)
+// In the browser, there's a limitation of how often nested timers can run. The HTML5 standard says:
+// "after five nested timers, the interval is forced to be at least 4 milliseconds"
+
+// Summary
+/*
+    * Methods setTimeout(func, delay, ...args) and setInterval(func, delay, ... args) allow us to run the
+    fun once/ regularly after delay milliseconds.
+    * To cancel the execution, we should call clearTimeout/ clearInterval with the value returned by setTimeout/ setInterval
+    * Nested setTimeout calls are a more flexible alternative to setInterval, allowing us to set the time between
+    executions more precisely.
+    * Zero delay scheduling with setTimeout(func, 0) (the same as setTimeout(func)) is used to schedule the call
+    "as soon as possible, but after the current script is complete"
+    * The browset limits the minimal delay for five or more nested calls of setTimeout or for setInterval
+    (after 5th call) to 4ms. That's for historical reasons.
+
+    All scheduling methods do not guarantee the exact delay.
+
+    For example, the in-browser timer may slow down for a lot of reasons:
+    * The CPU is overloaded
+    * The browser tab is in the background mode
+    * The laptop is on battery
+     
+    All that may increase the minimal time resolution (the minimum delay) to 300ms or even 1000ms depending on 
+    the browser and OS-level performance settings
+*/
