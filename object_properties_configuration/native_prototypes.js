@@ -84,3 +84,15 @@ console.log(object.join(', '));
 // Built-in prototypes can be modified or populated with new methods. But it's not recommended to change
 // them. The only allowable case is probably when we add-in a new standard, but it's not yet supported by the
 // JavaScript engine
+
+// Tasks
+
+Function.prototype.defer = function(ms) {
+    setTimeout(this, ms);
+};
+
+function f() {
+    console.log("Hello!")
+}
+
+f.defer(1000);
