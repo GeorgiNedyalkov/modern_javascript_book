@@ -14,3 +14,7 @@
 
 
 ### Introduction: callbacks
+
+
+
+### __Error Handling with Promises__
